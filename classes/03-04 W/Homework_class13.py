@@ -38,20 +38,26 @@ Transitions happen whenever we move from one board to another so whenever a move
 6) DO NOT USE AI. Write 5-8 sentences explaining one non-obvious part (choose one):  
    (a) symmetry logic (what makes a board unique), 
    (b) why we undo moves, 
-   (c) why standard_form() produces uniqueness
 
-   Answering Letter (A)
-   
+We undo moves so the machine can keep replaying games and explore different end scenarions. We only have one created board and if we did not undo these moves in the loop structure, it would keep playing games over & over on one board which would then screw up win conditions bc of how they're calculated. Undoing moves ensures our board reutnrs to standard 3x3 grid state following each time we reach full board. 
+   (c) why standard_form() produces uniqueness
 
 
 7) The output from the program is two print statements:
        127872
        138 81792 46080 91 44 3
+print(full_boards)
+print(len(unique_seen), x_wins_on_full_board, draws_on_full_board, x_wins, o_wins, ties)
 
     explain what each number represents.
 
-
-
+12782- # of games played and boards seen
+138- number of unique formal board outcomes excluding rotations & duplicates
+81792- total X wins
+46080- total draws observed
+91- X wins
+44- O wins
+3- ties
 
 Submission:
 - Update this file with your answers. Commit and sync
