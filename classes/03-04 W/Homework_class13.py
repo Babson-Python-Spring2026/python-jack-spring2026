@@ -17,11 +17,21 @@ RULE:  Do not change any executable code (no reformatting logic, no renaming var
        
 1) Define STATE for this program.
    - What variables change as the program runs?
+The state for this program is mainly the currrent state of the board. As the game progresses and we get moves put on the board, all our variables having to due wiht win sceanrios change so we can establish a winner. The main ones are board, x_win, o_win etc.
+
 2) Explain where TRANSITIONS happen.
+Transitions happen whenever we move from one board to another so whenever a move is placed. 
    - Where does the state change? (where in the code, which functions)
+   This happens when we have to start the program again and have a new game or a new move is placed. One example is in record full board becuase this happems after we have a winner determined.
+
 3) Identify 4 INVARIANTS.
+
    - What properties remain true as the program runs (and what checks enforce them).
-   - For instance: has_winner() is a check; the invariant is “we do not continue exploring after a win.”
+   1- players alternate turns. Enforced by structure of our nested loop
+     2- Game stops when win condition is met. Has winner function to see if sum=30.
+     3- same space may not be pikced twice. in loops we only allow the move to place if the space is ""
+     4- inputs can only be int 1-9. Moves and board created by range (9)
+
 4) For every function that says ''' TODO ''', replace that docstring with a real explanation
    of what the function does (1-4 sentences).
 5) Add inline comments anywhere you see "# TODO" explaining what that code block is doing.
@@ -29,11 +39,18 @@ RULE:  Do not change any executable code (no reformatting logic, no renaming var
    (a) symmetry logic (what makes a board unique), 
    (b) why we undo moves, 
    (c) why standard_form() produces uniqueness
+
+   Answering Letter (A)
+   
+
+
 7) The output from the program is two print statements:
        127872
        138 81792 46080 91 44 3
 
     explain what each number represents.
+
+
 
 
 Submission:
@@ -45,16 +62,16 @@ Submission:
 # Global running totals (STATE)
 # ----------------------------
 
-unique_seen = []             # TODO: What does this list store? Why do we store "standard forms"?
-board = [' '] * 9            # TODO: What does this represent? Why do we undo moves?
+unique_seen = []             # TODO: Stores boards as unique ensures we don't get dupliuctes
+board = [' '] * 9            # TODO: Current tic tac toe board as a list
 
-full_boards = 0              # TODO: What does this count?
-x_wins_on_full_board = 0     # TODO: What does this count?
-draws_on_full_board = 0      # TODO: What does this count?
+full_boards = 0              # TODO: Counts total games ran
+x_wins_on_full_board = 0     # TODO: Games where X wins
+draws_on_full_board = 0      # TODO: Draws 
 
-x_wins = 0                   # TODO: What does this count?
-o_wins = 0                   # TODO: What does this count?
-ties = 0                     # TODO: What does this count?
+x_wins = 0                   # TODO: When X wins 
+o_wins = 0                   # TODO: Wwhen O wins
+ties = 0                     # TODO: Games that end in tie
 
 
 # ----------------------------
@@ -62,7 +79,7 @@ ties = 0                     # TODO: What does this count?
 # ----------------------------
 
 def to_grid(flat_board: list[str]) -> list[list[str]]:
-    ''' TODO '''
+    ''' Converts our board from a list of 9 into 3x3 grid. easier to check values & winner '''
     grid = []
     for row in range(3):
         row_vals = []
@@ -73,7 +90,7 @@ def to_grid(flat_board: list[str]) -> list[list[str]]:
 
 
 def rotate_clockwise(grid: list[list[str]]) -> list[list[str]]:
-    ''' TODO '''
+    ''' Returns our 3x3 grid rotated clockwise.  '''
     rotated = [[' '] * 3 for _ in range(3)]
     for r in range(3):
         for c in range(3):
@@ -82,12 +99,12 @@ def rotate_clockwise(grid: list[list[str]]) -> list[list[str]]:
 
 
 def flip_vertical(grid: list[list[str]]) -> list[list[str]]:
-    ''' TODO '''
+    ''' Reverses our rows but same contents just flipped '''
     return [grid[2], grid[1], grid[0]]
 
 
 def standard_form(flat_board: list[str]) -> list[list[str]]:
-    ''' TODO '''
+    ''' Creates a standard version of the board so symmetric boards are treated the same. '''
     grid = to_grid(flat_board)
     flipped = flip_vertical(grid)
 
@@ -102,16 +119,16 @@ def standard_form(flat_board: list[str]) -> list[list[str]]:
 
 
 def record_unique_board(flat_board: list[str]) -> None:
-    ''' TODO '''
+    ''' ID when we see a board we havent seen before then what the result is '''
     global x_wins, o_wins, ties
 
     rep = standard_form(flat_board)
 
-    # TODO: Why do we check "rep not in unique_seen" before appending?
+    # TODO: We check this to make sure we have not seen this board before 
     if rep not in unique_seen:
         unique_seen.append(rep)
 
-        # TODO: This updates counts for unique *terminal* boards. What are the categories?
+        # TODO: X wins, O wins, Tie
         winner = who_won(flat_board)
         if winner == 'X':
             x_wins += 1
@@ -126,7 +143,7 @@ def record_unique_board(flat_board: list[str]) -> None:
 # ----------------------------
 
 def has_winner(flat_board: list[str]) -> bool:
-    ''' TODO '''
+    ''' Checks if there is a winner by checking all of the winning combos. returns trye if theres a winner '''
     winning_lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8],  # cols
@@ -147,7 +164,7 @@ def has_winner(flat_board: list[str]) -> bool:
 
 
 def who_won(flat_board: list[str]) -> str:
-    ''' TODO '''
+    ''' Takes the last step and then tells us who won, x, o , or tie  '''
     winning_lines = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows
         [0, 3, 6], [1, 4, 7], [2, 5, 8],  # cols
@@ -171,8 +188,8 @@ def who_won(flat_board: list[str]) -> str:
 
 
 def should_continue(flat_board: list[str], move_number: int) -> bool:
-    ''' TODO '''
-    # TODO: What condition makes us STOP exploring deeper moves?
+    ''' '''
+    # TODO: WWhen we have a winner
     if has_winner(flat_board):
         record_unique_board(flat_board)
         return False
@@ -180,14 +197,14 @@ def should_continue(flat_board: list[str], move_number: int) -> bool:
 
 
 def record_full_board(flat_board: list[str]) -> None:
-    ''' TODO '''
+    ''' Records when we have a board with 9/9 spaces filled counts if thats a x win or a tie '''
     global full_boards, x_wins_on_full_board, draws_on_full_board
 
-    # TODO: This is a terminal state because the board is full (9 moves).
+    # TODO: This is a terminal state because the board is full (9 moves).    I dont know what you want us to say here
     record_unique_board(flat_board)
     full_boards += 1
 
-    # TODO: On a full board, either X has won (last move) or it is a draw.
+    # TODO: On a full board, either X has won (last move) or it is a draw. 
     if has_winner(flat_board):
         x_wins_on_full_board += 1
     else:
@@ -198,8 +215,10 @@ def record_full_board(flat_board: list[str]) -> None:
 # Brute force search (9 nested loops)
 # ----------------------------
 
-# TODO: In these loops, where are transitions taking place?
-# TODO: Where else do transitions happen?
+# TODO: The transitions take place whenever the board changes so either palcing or removing a move
+
+
+# TODO: This is in full and unique boards because this is how we check to see if we have a winner and we transition to run the program again. 
 
 # Move 1: X
 for x1 in range(9):
