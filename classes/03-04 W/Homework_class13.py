@@ -1,3 +1,47 @@
+'''
+Jack — 9.5 / 10
+
+Overall
+
+One of the strongest submissions.
+
+This student demonstrates a very clear conceptual understanding of:
+
+the search tree
+the shared mutable board
+symmetry reduction
+
+Strengths
+
+Excellent explanation of why moves are undone.
+Clear STI reasoning.
+Good explanations of helper functions.
+
+Example of strong insight:
+
+The board is reused and moves are erased instead of creating millions of lists.
+
+That is exactly the core computational idea behind the program.
+
+Weaknesses
+
+Slightly conversational tone in explanations.
+
+AI likelihood
+
+Moderate.
+
+Reasons:
+
+Some phrasing resembles AI explanations.
+However the informal tone (“I kept getting confused by this at first”) suggests personal reasoning.
+
+Estimated probability of AI assistance: 30–40%
+
+GRADE 99
+
+'''
+
 """
 Homework: Reading Code with State / Transitions / Invariants (Tic-Tac-Toe)
 
