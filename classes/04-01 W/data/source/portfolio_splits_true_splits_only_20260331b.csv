@@ -1,0 +1,14 @@
+Date,Ticker,Split Ratio
+2025-11-17,NFLX,10.0
+
+
+import json 
+
+
+Netflix= 
+{ "Date": "2025-11-17",
+"Ticker": "NFLX",
+"Split Ratio": 10.0}
+
+with open("system.json", "w") as file:
+    json.dump(data, file, indent=4)
