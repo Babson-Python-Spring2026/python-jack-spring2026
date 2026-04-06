@@ -28,4 +28,3 @@ with open('classes/04-06 M/data/system/dividends_ticker.json', 'w') as f:
 
 with open('classes/04-06 M/data/system/dividends_dates.json', 'w') as f:
     json.dump(dividends_by_date, f, indent=2)
-
