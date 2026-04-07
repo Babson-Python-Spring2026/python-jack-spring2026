@@ -1,4 +1,7 @@
 """
+Figure out if pricwe and date have the right number of reconrds and find the computations and numberof lines we should have 
+
+
 Download daily prices, dividends, and stock splits for the current S&P 100
 using yfinance, then save them to separate CSV files.
 
